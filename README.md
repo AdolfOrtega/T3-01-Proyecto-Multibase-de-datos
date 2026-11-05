@@ -177,22 +177,19 @@ Presiona Ctrl+C para detener el servicio.
 
 ---
 
-## Opciones de Prueba
+## Pruebas de la Aplicacion
 
-### Opcion 1: Menu interactivo en consola (Captura dinamica)
-En una segunda terminal puedes iniciar la aplicacion interactiva para capturar datos en vivo:
+### Menu interactivo en consola (Captura dinamica)
+En una segunda terminal puedes iniciar la aplicacion interactiva para capturar, consultar y borrar datos en vivo:
 ```bash
-node consola.js
+npm run consola
+# o bien: node consola.js
 ```
 
-### Opcion 2: Script automatizado de pruebas
-Para ejecutar pruebas de todos los metodos en los 6 recursos:
-```bash
-npm test
-```
-
-### Opcion 3: Archivo HTTP en VS Code
-Abre el archivo `test_endpoints.http` e instala la extension **REST Client** para ejecutar peticiones directamente con un clic.
+Tambien puedes realizar consultas directamente desde el navegador ingresando a:
+- `http://localhost:3000/api/usuarios` (MySQL)
+- `http://localhost:3000/api/productos` (MongoDB)
+- `http://localhost:3000/api/sesiones` (Redis)
 
 ---
 

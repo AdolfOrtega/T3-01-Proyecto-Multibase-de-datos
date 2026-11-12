@@ -1,0 +1,223 @@
+{
+  "proyecto": "Web Service Multibase de Datos",
+  "fecha_respaldo": "2026-11-12T18:56:19.894Z",
+  "autores": [
+    "Adolfo Rodriguez (23460528@colima.tecnm.mx)",
+    "Andrea Tairi Velazquez Gallardo (23460539@colima.tecnm.mx)"
+  ],
+  "resumen": {
+    "mysql_relacional": {
+      "usuarios": 2,
+      "clientes": 0
+    },
+    "mongodb_nosql": {
+      "productos": 5,
+      "pedidos": 3
+    },
+    "redis_clave_valor": {
+      "sesiones": 4,
+      "carritos": 1
+    }
+  },
+  "datos": {
+    "mysql": {
+      "usuarios": [
+        {
+          "id": 1,
+          "nombre": "Niño",
+          "email": "niño@gmail.com",
+          "rol": "docente",
+          "activo": 1,
+          "creado_en": "2026-11-12T18:47:17.000Z"
+        },
+        {
+          "id": 2,
+          "nombre": "andrea",
+          "email": "andrea@gmail.com",
+          "rol": "cliente",
+          "activo": 1,
+          "creado_en": "2026-11-12T18:48:12.000Z"
+        }
+      ],
+      "clientes": []
+    },
+    "mongodb": {
+      "productos": [
+        {
+          "_id": "6aeba8f64da9e58cf6fd68aa",
+          "nombre": "Mouse Óptico Inalámbrico",
+          "categoria": "Accesorios",
+          "precio": 350,
+          "stock": 20,
+          "especificaciones": {},
+          "activo": true,
+          "creado_en": "2026-11-04T21:51:50.020Z"
+        },
+        {
+          "_id": "6aeba93bf8c9a775db99bd93",
+          "nombre": "Mouse Óptico Inalámbrico",
+          "categoria": "Accesorios",
+          "precio": 299.99,
+          "stock": 20,
+          "especificaciones": {},
+          "activo": false,
+          "creado_en": "2026-11-04T21:52:59.764Z",
+          "actualizado_en": "2026-11-04T21:52:59.794Z",
+          "eliminado_en": "2026-11-04T21:52:59.807Z"
+        },
+        {
+          "_id": "6aebae169395182f62fa911a",
+          "nombre": "Mouse Óptico Inalámbrico",
+          "categoria": "Accesorios",
+          "precio": 299.99,
+          "stock": 20,
+          "especificaciones": {},
+          "activo": false,
+          "creado_en": "2026-11-04T22:13:42.748Z",
+          "actualizado_en": "2026-11-04T22:13:42.779Z",
+          "eliminado_en": "2026-11-04T22:13:42.793Z"
+        },
+        {
+          "_id": "6aebb446632413c5669eb6f6",
+          "nombre": "Mouse Óptico Inalámbrico",
+          "categoria": "Accesorios",
+          "precio": 299.99,
+          "stock": 20,
+          "especificaciones": {},
+          "activo": false,
+          "creado_en": "2026-11-04T22:40:06.419Z",
+          "actualizado_en": "2026-11-04T22:40:06.454Z",
+          "eliminado_en": "2026-11-04T22:40:06.469Z"
+        },
+        {
+          "_id": "6af3632f7dad4835eb94dd30",
+          "nombre": "Mouse Alambrico Interestelar",
+          "categoria": "Computo",
+          "precio": 1524,
+          "stock": 2,
+          "especificaciones": {},
+          "activo": true,
+          "creado_en": "2026-11-10T18:32:15.038Z"
+        }
+      ],
+      "pedidos": [
+        {
+          "_id": "6aeba93bf8c9a775db99bd94",
+          "cliente_id": 1,
+          "items": [
+            {
+              "producto": "Mouse Óptico",
+              "precio": 299.99,
+              "cantidad": 2,
+              "subtotal": 599.98
+            }
+          ],
+          "total": 599.98,
+          "metodo_pago": "efectivo",
+          "estado": "enviado",
+          "activo": false,
+          "fecha": "2026-11-04T21:52:59.825Z",
+          "actualizado_en": "2026-11-04T21:52:59.856Z",
+          "cancelado_en": "2026-11-04T21:52:59.860Z"
+        },
+        {
+          "_id": "6aebae169395182f62fa911b",
+          "cliente_id": 1,
+          "items": [
+            {
+              "producto": "Mouse Óptico",
+              "precio": 299.99,
+              "cantidad": 2,
+              "subtotal": 599.98
+            }
+          ],
+          "total": 599.98,
+          "metodo_pago": "efectivo",
+          "estado": "enviado",
+          "activo": false,
+          "fecha": "2026-11-04T22:13:42.810Z",
+          "actualizado_en": "2026-11-04T22:13:42.826Z",
+          "cancelado_en": "2026-11-04T22:13:42.840Z"
+        },
+        {
+          "_id": "6aebb446632413c5669eb6f7",
+          "cliente_id": 1,
+          "items": [
+            {
+              "producto": "Mouse Óptico",
+              "precio": 299.99,
+              "cantidad": 2,
+              "subtotal": 599.98
+            }
+          ],
+          "total": 599.98,
+          "metodo_pago": "efectivo",
+          "estado": "enviado",
+          "activo": false,
+          "fecha": "2026-11-04T22:40:06.485Z",
+          "actualizado_en": "2026-11-04T22:40:06.501Z",
+          "cancelado_en": "2026-11-04T22:40:06.516Z"
+        }
+      ]
+    },
+    "redis": {
+      "sesiones": [
+        {
+          "token": "844d44af688cd0f0c5a45987368f9b60",
+          "usuario_id": 1,
+          "ip": "192.168.1.200",
+          "navegador": "Chrome",
+          "activo": false,
+          "creado_en": "2026-11-04T22:13:42.857Z",
+          "actualizado_en": "2026-11-04T22:13:42.874Z",
+          "cerrado_en": "2026-11-04T22:13:42.887Z"
+        },
+        {
+          "token": "e66ec249ffa5cf9bc6400afdd492b746",
+          "usuario_id": 1,
+          "ip": "192.168.1.200",
+          "navegador": "Chrome",
+          "activo": false,
+          "creado_en": "2026-11-04T21:52:59.872Z",
+          "actualizado_en": "2026-11-04T21:52:59.889Z",
+          "cerrado_en": "2026-11-04T21:52:59.903Z"
+        },
+        {
+          "token": "d65eaf2a50466ea2030a42306f707d34",
+          "usuario_id": 1,
+          "ip": "1908.23.453.0",
+          "navegador": "chrome",
+          "activo": true,
+          "creado_en": "2026-11-05T18:43:47.673Z"
+        },
+        {
+          "token": "195b6223f1c4c12afcf7b064ea50301f",
+          "usuario_id": 1,
+          "ip": "192.168.1.200",
+          "navegador": "Chrome",
+          "activo": false,
+          "creado_en": "2026-11-04T22:40:06.531Z",
+          "actualizado_en": "2026-11-04T22:40:06.548Z",
+          "cerrado_en": "2026-11-04T22:40:06.562Z"
+        }
+      ],
+      "carritos": [
+        {
+          "usuario_id": 1,
+          "items": [
+            {
+              "item": "Teclado Gamer",
+              "precio": 500,
+              "cantidad": 1
+            }
+          ],
+          "total": 750,
+          "activo": false,
+          "creado_en": "2026-11-04T22:40:06.577Z",
+          "actualizado_en": "2026-11-04T22:40:06.595Z",
+          "vaciado_en": "2026-11-04T22:40:06.609Z"
+        }
+      ]
+    }
+  }
+}

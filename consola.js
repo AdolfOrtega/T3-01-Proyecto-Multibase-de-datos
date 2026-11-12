@@ -26,29 +26,30 @@ function pausa() {
 async function menuPrincipal() {
   while (true) {
     console.clear();
+    console.log('   --Sistema de metodos HTTP  ');
     console.log('----------------------------------------------------');
-    console.log('   SISTEMA INTERACTIVO - MULTIBASE DE DATOS (REST)  ');
-    console.log('   Adolfo Rodriguez & Andrea Velazquez - 7mo Sem    ');
-    console.log('----------------------------------------------------');
-    console.log('  [ MySQL - BASE RELACIONAL ]');
+    console.log('  [ MySQL - Base Relacional ]');
     console.log('    1. Listar usuarios activos (GET)');
     console.log('    2. Registrar nuevo usuario (POST)');
     console.log('    3. Borrado logico de usuario (DELETE)');
     console.log('----------------------------------------------------');
-    console.log('  [ MongoDB - BASE NOSQL DOCUMENTAL ]');
+    console.log('  [ MongoDB - Base noSQL documental ]');
     console.log('    4. Listar productos activos (GET)');
     console.log('    5. Registrar nuevo producto (POST)');
     console.log('    6. Borrado logico de producto (DELETE)');
     console.log('----------------------------------------------------');
-    console.log('  [ Redis - BASE CLAVE-VALOR ]');
+    console.log('  [ Redis - Base Clave-Valor ]');
     console.log('    7. Listar sesiones activas (GET)');
     console.log('    8. Registrar nueva sesion (POST)');
     console.log('    9. Borrado logico de sesion (DELETE)');
     console.log('----------------------------------------------------');
+    console.log('  [ Respaldo / Exportacion ]');
+    console.log('   10. Exportar todos los datos a archivo JSON');
+    console.log('----------------------------------------------------');
     console.log('    0. Salir');
     console.log('----------------------------------------------------');
 
-    const opcion = await preguntar('Selecciona una opcion (0-9): ');
+    const opcion = await preguntar('Selecciona una opcion (0-10): ');
 
     try {
       switch (opcion) {
@@ -79,12 +80,15 @@ async function menuPrincipal() {
         case '9':
           await borrarSesion();
           break;
+        case '10':
+          await exportarRespaldoJSON();
+          break;
         case '0':
-          console.log('\nSaliendo del programa... Chao Chao.');
+          console.log('\nPo que no me mandas unos whasap.');
           rl.close();
           return;
         default:
-          console.log('\n[!] Opcion no valida.');
+          console.log('\nOpcion no valida.');
           await pausa();
       }
     } catch (error) {
@@ -186,7 +190,7 @@ async function crearProducto() {
   console.log('\n--- Registrar nuevo producto en MongoDB (POST) ---');
   const nombre = await preguntar('Nombre del producto: ');
   const categoria = await preguntar('Categoria (ej. Electronica, Computo): ') || 'General';
-  const precioStr = await preguntar('Precio (ej. 1250.50): ');
+  const precioStr = await preguntar('Precio (ej. 1234.56): ');
   const stockStr = await preguntar('Stock disponible: ') || '1';
 
   const precio = parseFloat(precioStr);
@@ -215,7 +219,7 @@ async function crearProducto() {
 
 async function borrarProducto() {
   console.log('\n--- Borrado logico de producto en MongoDB (DELETE) ---');
-  const id = await preguntar('Escribe el ID del producto (ObjectId) a borrar: ');
+  const id = await preguntar('Escribe el ID del producto a borrar: ');
 
   if (!id) {
     console.log('[!] Debes ingresar un ID.');
@@ -299,6 +303,87 @@ async function borrarSesion() {
   } else {
     console.log(`\n[!] Error: ${json.error}`);
   }
+  await pausa();
+}
+
+// ----------------------------------------------------
+// 4. MODULO DE RESPALDO / EXPORTACION A ARCHIVO JSON
+// ----------------------------------------------------
+async function exportarRespaldoJSON() {
+  console.log('\n--- Exportando datos de las 3 bases a archivo JSON ---');
+  const fs = require('fs');
+  const path = require('path');
+
+  try {
+    // 1. Consultar MySQL
+    const resUsr = await fetch(`${BASE_URL}/api/usuarios?todos=true`);
+    const dataUsr = await resUsr.json();
+    const resCli = await fetch(`${BASE_URL}/api/clientes?todos=true`);
+    const dataCli = await resCli.json();
+
+    // 2. Consultar MongoDB
+    const resProd = await fetch(`${BASE_URL}/api/productos?todos=true`);
+    const dataProd = await resProd.json();
+    const resPed = await fetch(`${BASE_URL}/api/pedidos?todos=true`);
+    const dataPed = await resPed.json();
+
+    // 3. Consultar Redis
+    const resSes = await fetch(`${BASE_URL}/api/sesiones?todos=true`);
+    const dataSes = await resSes.json();
+    const resCart = await fetch(`${BASE_URL}/api/carritos?todos=true`);
+    const dataCart = await resCart.json();
+
+    const respaldo = {
+      proyecto: 'Web Service Multibase de Datos',
+      fecha_respaldo: new Date().toISOString(),
+      autores: [
+        'Adolfo Rodriguez (23460528@colima.tecnm.mx)',
+        'Andrea Tairi Velazquez Gallardo (23460539@colima.tecnm.mx)'
+      ],
+      resumen: {
+        mysql_relacional: {
+          usuarios: dataUsr.total || (dataUsr.data ? dataUsr.data.length : 0),
+          clientes: dataCli.total || (dataCli.data ? dataCli.data.length : 0)
+        },
+        mongodb_nosql: {
+          productos: dataProd.total || (dataProd.data ? dataProd.data.length : 0),
+          pedidos: dataPed.total || (dataPed.data ? dataPed.data.length : 0)
+        },
+        redis_clave_valor: {
+          sesiones: dataSes.total || (dataSes.data ? dataSes.data.length : 0),
+          carritos: dataCart.total || (dataCart.data ? dataCart.data.length : 0)
+        }
+      },
+      datos: {
+        mysql: {
+          usuarios: dataUsr.data || [],
+          clientes: dataCli.data || []
+        },
+        mongodb: {
+          productos: dataProd.data || [],
+          pedidos: dataPed.data || []
+        },
+        redis: {
+          sesiones: dataSes.data || [],
+          carritos: dataCart.data || []
+        }
+      }
+    };
+
+    const rutaArchivo = path.join(__dirname, 'respaldo_multibase.json');
+    fs.writeFileSync(rutaArchivo, JSON.stringify(respaldo, null, 2), 'utf-8');
+
+    console.log('\n[OK] Respaldo guardado exitosamente en:');
+    console.log('-> respaldo_multibase.json');
+    console.log('\nResumen de registros guardados:');
+    console.log(`- MySQL:   ${respaldo.resumen.mysql_relacional.usuarios} usuarios, ${respaldo.resumen.mysql_relacional.clientes} clientes`);
+    console.log(`- MongoDB: ${respaldo.resumen.mongodb_nosql.productos} productos, ${respaldo.resumen.mongodb_nosql.pedidos} pedidos`);
+    console.log(`- Redis:   ${respaldo.resumen.redis_clave_valor.sesiones} sesiones, ${respaldo.resumen.redis_clave_valor.carritos} carritos`);
+    console.log('\nYa puedes abrir el archivo "respaldo_multibase.json" en VS Code para revisarlo.');
+  } catch (error) {
+    console.log(`\n[!] Error al exportar: ${error.message}`);
+  }
+
   await pausa();
 }
 

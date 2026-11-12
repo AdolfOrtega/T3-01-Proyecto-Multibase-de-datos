@@ -22,6 +22,9 @@ const carritosRoutes = require('./routes/carritos.routes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configurar respuestas JSON con formato ordenado y legible (JSON Pretty)
+app.set('json spaces', 2);
+
 // Middleware para procesar JSON en el cuerpo de las peticiones
 app.use(express.json());
 
